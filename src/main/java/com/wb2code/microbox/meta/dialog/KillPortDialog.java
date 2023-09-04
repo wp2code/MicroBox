@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.CustomJTextField;
 import com.wb2code.microbox.meta.MicroToolFrame;
 import com.wb2code.microbox.meta.panel.ComPanel;
@@ -37,12 +37,16 @@ public class KillPortDialog extends JDialog {
         box.add(btn);
         closeBtn.addActionListener(e -> close());
         confirmBtn.addActionListener(e -> {
-            final String text = port.getText();
-            if (StrUtil.isBlank(text)) {
+            final String portValue = port.getText();
+            if (StrUtil.isBlank(portValue)) {
                 DialogUtil.error("请输入端口号");
                 return;
             }
-            final Set<String> pidSet = SystemUtil.getPidByPort(text.trim());
+            if (!SystemUtil.isValidPort(portValue)) {
+                DialogUtil.error("映射端口错误");
+                return;
+            }
+            final Set<String> pidSet = SystemUtil.getPidByPort(portValue.trim());
             if (CollUtil.isNotEmpty(pidSet)) {
                 boolean isOk = false;
                 for (final String pid : pidSet) {
@@ -67,7 +71,7 @@ public class KillPortDialog extends JDialog {
                     frame.getTopPanel().refreshServer(null);
                     frame.getTopPanel().updateUI();
                     close();
-                    DialogUtil.success("解除端口" + text + "占用成功");
+                    DialogUtil.success("解除端口" + portValue + "占用成功");
                 }
             } else {
                 DialogUtil.error("端口未占用");

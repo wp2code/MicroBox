@@ -24,9 +24,21 @@ public class LinkLabel extends JLabel {
      * @param text
      * @param consumer
      */
-    public LinkLabel(String text, Color color, String iconName, Object data, Consumer<LinkLabel> consumer) {
-//        super(text);
-        this.setToolTipText(text);
+    public LinkLabel(String text, String iconName, Object data, Consumer<LinkLabel> consumer) {
+        this(text, text, Color.blue, iconName, data, consumer);
+    }
+
+    public LinkLabel(String text, String toolTipText, Consumer<LinkLabel> consumer) {
+        this(text, toolTipText, Color.blue, null, null, consumer);
+    }
+
+    public LinkLabel(String toolTipText, Color color, String iconName, Object data, Consumer<LinkLabel> consumer) {
+        this(null, toolTipText, color, iconName, data, consumer);
+    }
+
+    public LinkLabel(String text, String toolTipText, Color color, String iconName, Object data, Consumer<LinkLabel> consumer) {
+        super(text);
+        this.setToolTipText(toolTipText);
         this.data = data;
         this.setForeground(color);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

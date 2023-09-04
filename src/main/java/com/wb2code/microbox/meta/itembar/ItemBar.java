@@ -2,12 +2,10 @@ package com.wb2code.microbox.meta.itembar;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.label.AutoLabel;
 import com.wb2code.microbox.meta.label.LinkLabel;
 import com.wb2code.microbox.meta.panel.ComPanel;
@@ -105,12 +103,7 @@ public class ItemBar extends JPanel {
         }
         if (StrUtil.isNotBlank(serverConfig.getWebSite())) {
             LinkLabel website = new LinkLabel("访问服务网址", null, "webSite", serverConfig, e -> {
-                final String url = Base64.decodeStr(serverConfig.getWebSite());
-                try {
-                    Desktop.getDesktop().browse(URLUtil.toURI(url));
-                } catch (IOException ex) {
-                    LogUtil.error("打开网站{}，失败{}", url, ExceptionUtil.getMessage(ex));
-                }
+                SystemUtil.browseWebUrl(Base64.decodeStr(serverConfig.getWebSite()));
             });
             jarPathP.add(website);
         }

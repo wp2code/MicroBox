@@ -1,4 +1,4 @@
-package com.wb2code.microbox.entity;
+package com.wb2code.microbox.annotation.entity;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;

@@ -1,8 +1,9 @@
 package com.wb2code.microbox.utils;
 
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.dialog.ChangeJarDialog;
 import com.wb2code.microbox.meta.dialog.KillPortDialog;
+import com.wb2code.microbox.meta.dialog.NgrokDialog;
 import com.wb2code.microbox.meta.dialog.ServerConfigDialog;
 
 import javax.swing.*;
@@ -37,6 +38,11 @@ public class DialogUtil {
 
     public static KillPortDialog openKillPortDialog(Component parentComponent) {
         final KillPortDialog killPortDialog = new KillPortDialog(parentComponent);
+        return killPortDialog;
+    }
+
+    public static NgrokDialog openNgrokDialog(Component parentComponent, String title) {
+        final NgrokDialog killPortDialog = new NgrokDialog(parentComponent, title);
         return killPortDialog;
     }
 

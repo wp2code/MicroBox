@@ -3,7 +3,8 @@ package com.wb2code.microbox.meta.dialog;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.Result;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.panel.ComPanel;
 import com.wb2code.microbox.meta.panel.core.TopPanel;
 import com.wb2code.microbox.utils.DialogUtil;
@@ -54,7 +55,7 @@ public class ChangeJarDialog extends JDialog {
         ChangeJarDialog changeJarDialog = this;
         confirmBtn.addActionListener(e -> {
             config.setJarName(String.valueOf(comboBox.getSelectedItem()));
-            final SQLiteUtil.Result result = SQLiteUtil.insertOrUpdate(config);
+            final Result result = SQLiteUtil.insertOrUpdate(config);
             if (result.isSuccess()) {
                 ((TopPanel) parentComponent).refreshServer(null);
                 close();

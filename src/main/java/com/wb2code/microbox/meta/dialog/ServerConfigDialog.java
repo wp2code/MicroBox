@@ -5,7 +5,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.Result;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.MicroToolFrame;
 import com.wb2code.microbox.meta.PlaceholdTextField;
 import com.wb2code.microbox.meta.panel.ComPanel;
@@ -110,7 +111,7 @@ public class ServerConfigDialog extends JDialog {
             } else {
                 newCfg.setType(1);
             }
-            final SQLiteUtil.Result result = SQLiteUtil.insertOrUpdate(newCfg);
+            final Result result = SQLiteUtil.insertOrUpdate(newCfg);
             if (!result.isSuccess()) {
                 DialogUtil.error(result.getError());
                 return;

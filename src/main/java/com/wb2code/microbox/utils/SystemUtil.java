@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @see
  */
 public class SystemUtil {
-
+    private static final String PORT_PATTERN = "^\\d{1,5}$";
 
     public static List<String> listFileNames(String dirPath, String fileType, String igChar) {
         if (!FileUtil.isDirectory(dirPath)) {
@@ -167,10 +167,6 @@ public class SystemUtil {
         return null;
     }
 
-    public static void main(String[] args) {
-        final Set<String> pidByPort = getPidByPort("11301");
-        System.out.println(pidByPort);
-    }
 
     public static String getClipboardString() {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -196,9 +192,7 @@ public class SystemUtil {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI(webUrl));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (URISyntaxException e1) {
+            } catch (IOException | URISyntaxException e1) {
                 e1.printStackTrace();
             }
         } catch (Exception ex) {
@@ -238,5 +232,9 @@ public class SystemUtil {
         } catch (Exception e) {
         }
         return null;
+    }
+
+    public static boolean isValidPort(String port){
+        return port.matches(PORT_PATTERN) && Integer.parseInt(port) >= 1024 && Integer.parseInt(port) <= 65535;
     }
 }

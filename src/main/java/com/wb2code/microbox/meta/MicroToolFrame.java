@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wb2code.microbox.config.MicroToolGlobalConfig;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.panel.MenuBarPanel;
 import com.wb2code.microbox.meta.panel.core.BottomPanel;
 import com.wb2code.microbox.meta.panel.core.ContentPanel;

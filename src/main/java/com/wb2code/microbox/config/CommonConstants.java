@@ -27,4 +27,5 @@ public class CommonConstants {
     public static ImageIcon REFRESH_ICON = new ImageIcon(Objects.requireNonNull(SystemUtil.getSystemResource("images/refresh.png")));
 
     public static final int WEB_SITE_MAX_LENGTH=500;
+    public static final String EDIT_BTN_TEXT = "编辑";
 }

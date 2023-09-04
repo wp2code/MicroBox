@@ -3,7 +3,7 @@ package com.wb2code.microbox.meta.panel.core;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.MicroToolFrame;
 import com.wb2code.microbox.meta.PlaceholdTextField;
 import com.wb2code.microbox.meta.itembar.ItemBar;

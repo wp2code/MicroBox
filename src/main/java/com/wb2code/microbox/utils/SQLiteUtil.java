@@ -8,10 +8,11 @@ import com.wb2code.microbox.config.connect.BaseTableInfo;
 import com.wb2code.microbox.config.connect.JDBCService;
 import com.wb2code.microbox.config.connect.JdbcServiceFactory;
 import com.wb2code.microbox.config.connect.JdbcSourceInfo;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.NgrokConfigEntity;
+import com.wb2code.microbox.annotation.entity.Result;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.enums.DataSourceTypeEnum;
 import com.wb2code.microbox.metadata.DbTableInfo;
-import lombok.Data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +45,7 @@ public class SQLiteUtil {
      * @return
      */
     public static boolean init(boolean forceCreate) {
-        return createJDBCSourceTable(forceCreate) && createServerConfigTable(forceCreate);
+        return createJDBCSourceTable(forceCreate) && createServerConfigTable(forceCreate) && createNgrokConfigTable(forceCreate);
     }
 
     /**
@@ -84,6 +85,26 @@ public class SQLiteUtil {
         DbTableInfo c9 = new DbTableInfo("update_time", "INT8", "更新时间", false, false);
         List<DbTableInfo> tableInfoList = Arrays.asList(c0, c1, c2, c3, c4, c5, c6, c7, c8, c9);
         return jdbcService.createTableIfAbsent(ServerConfigEntity.class, tableInfoList, forceCreate);
+    }
+
+    /**
+     * @param forceCreate
+     * @return
+     */
+    public static boolean createNgrokConfigTable(boolean forceCreate) {
+        final JDBCService jdbcService = SQLiteUtil.getSingleton();
+        DbTableInfo c0 = new DbTableInfo("id", "INTEGER", "索引", true, true);
+        DbTableInfo c1 = new DbTableInfo("tunnel_name", "VARCHAR(200)", "通道名称", false, false);
+        DbTableInfo c2 = new DbTableInfo("public_url", "VARCHAR(100)", "映射地址", false, false);
+        DbTableInfo c3 = new DbTableInfo("domain", "text", "指定域名", false, false);
+        DbTableInfo c4 = new DbTableInfo("port", "INT4", "授权Token", false, false);
+        DbTableInfo c5 = new DbTableInfo("auth_token", "VARCHAR(500)", "授权Token", false, false);
+        DbTableInfo c6 = new DbTableInfo("api_access_token", "text", "接口访问Token", false, false);
+        DbTableInfo c7 = new DbTableInfo("ext_config", "text", "扩展配置", false, false);
+        DbTableInfo c8 = new DbTableInfo("status", "INT2", "状态：0-未运行；1-已运行；-1-运行失败", false, false);
+        DbTableInfo c9 = new DbTableInfo("update_time", "INT8", "更新时间", false, false);
+        List<DbTableInfo> tableInfoList = Arrays.asList(c0, c1, c2, c3, c4, c5, c6, c7, c8, c9);
+        return jdbcService.createTableIfAbsent(NgrokConfigEntity.class, tableInfoList, forceCreate);
     }
 
     /**
@@ -132,8 +153,8 @@ public class SQLiteUtil {
      * @param <T>
      * @return
      */
-    public static <T extends BaseTableInfo> Result insertOrUpdate(T obj) {
-        final Result result = new Result();
+    public static <T extends BaseTableInfo> Result<Boolean> insertOrUpdate(T obj) {
+        final Result<Boolean> result = new Result();
         boolean success = false;
         try {
             obj.setUpdateTime(System.currentTimeMillis());
@@ -145,15 +166,10 @@ public class SQLiteUtil {
         } catch (Exception e) {
             result.setError(ExceptionUtil.getMessage(e));
         }
+        result.setData(success);
         result.setSuccess(success);
         return result;
     }
 
-    @Data
-    public static class Result<T> {
-        private boolean isSuccess;
-        private String error;
-        private List<T> data;
-    }
 
 }

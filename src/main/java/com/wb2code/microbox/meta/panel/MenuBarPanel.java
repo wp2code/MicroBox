@@ -3,7 +3,7 @@ package com.wb2code.microbox.meta.panel;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.CustomBasicMenuItemUI;
 import com.wb2code.microbox.meta.CustomJMenuItem;
 import com.wb2code.microbox.meta.MicroToolFrame;
@@ -22,9 +22,11 @@ import java.util.List;
 @Getter
 public class MenuBarPanel extends BasePanel {
     private final JMenuBar menuBar;
+    private final MicroToolFrame frame;
 
     public MenuBarPanel(MicroToolFrame frame) {
         menuBar = new JMenuBar();
+        this.frame = frame;
         JMenu menu = new JMenu("工具");
         menu.setIcon(new ImageIcon(ClassLoader.getSystemResource("images/tool.png")));
         CustomJMenuItem killAppItem = new CustomJMenuItem("解除端口占用", "unbind", new CustomBasicMenuItemUI(CommonConstants.selectionBackground, CommonConstants.selectionForeground));
@@ -68,5 +70,18 @@ public class MenuBarPanel extends BasePanel {
             DialogUtil.openKillPortDialog(frame);
         });
         menuBar.add(menu);
+        menuBar.add(getExMenu());
+    }
+
+
+    private JMenu getExMenu() {
+        JMenu exchange = new JMenu("内网映射");
+        exchange.setIcon(new ImageIcon(ClassLoader.getSystemResource("images/exchange.png")));
+        CustomJMenuItem ngrok = new CustomJMenuItem("Ngrok", "ngrok", new CustomBasicMenuItemUI(CommonConstants.selectionBackground, CommonConstants.selectionForeground));
+        ngrok.addActionListener((e) -> {
+            DialogUtil.openNgrokDialog(frame, "Ngrok内网映射");
+        });
+        exchange.add(ngrok);
+        return exchange;
     }
 }

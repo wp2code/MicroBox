@@ -2,7 +2,7 @@ package com.wb2code.microbox.meta.panel.core;
 
 import cn.hutool.log.StaticLog;
 import com.wb2code.microbox.config.CommonConstants;
-import com.wb2code.microbox.entity.ServerConfigEntity;
+import com.wb2code.microbox.annotation.entity.ServerConfigEntity;
 import com.wb2code.microbox.meta.LogJTextArea;
 import com.wb2code.microbox.meta.MicroToolFrame;
 import com.wb2code.microbox.meta.panel.BasePanel;

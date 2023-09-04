@@ -269,6 +269,9 @@ public abstract class AbstractJDBCService<T extends BaseTableInfo> implements JD
                     }
                 }
             }
+            if (StrUtil.endWith(sb, ",")) {
+                sb = new StringBuilder(StrUtil.removeSuffix(sb, ","));
+            }
             sb.append(" WHERE ");
             sb.append(field.getName());
             sb.append("=");
