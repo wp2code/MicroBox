@@ -15,37 +15,44 @@ import java.io.Writer;
  * @date 2022-10-14
  */
 public abstract class LogAppender extends Thread {
+    
     protected PipedReader reader;
+    
     protected PipedWriter writer;
+    
     protected volatile boolean stopMark;
-
+    
+    protected LogPrintHeartbeat logPrintHeartbeat;
+    
     public LogAppender(String appenderName) throws IOException {
         reader = new PipedReader();
         writer = new PipedWriter(reader);
         this.setWriterAppender(writer, appenderName);
+        logPrintHeartbeat = new LogPrintHeartbeat(writer);
+        logPrintHeartbeat.startHeartbeat();
     }
-
+    
     public void setWriterAppender(final Writer writer, final String writerName) {
         final LoggerContext context = LoggerContext.getContext(false);
         final Configuration config = context.getConfiguration();
-//        final PatternLayout layout = PatternLayout.newBuilder()
-//                .withPattern("%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%t] [%c] [%M] [%l] - %msg%n").build();
+        //        final PatternLayout layout = PatternLayout.newBuilder()
+        //                .withPattern("%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%t] [%c] [%M] [%l] - %msg%n").build();
         final PatternLayout layout = PatternLayout.createDefaultLayout(config);
-        WriterAppender writerAppender = WriterAppender.newBuilder().setName(writerName).setTarget(writer)
-                .setLayout(layout).build();
+        WriterAppender writerAppender = WriterAppender.newBuilder().setName(writerName).setTarget(writer).setLayout(layout).build();
         writerAppender.start();
         config.addAppender(writerAppender);
         config.getRootLogger().addAppender(writerAppender, null, null);
         context.updateLoggers(config);
     }
-
+    
     @Override
     public void start() {
-        if (this.getState() == State.NEW) {
+        this.stopMark = false;
+        if (!this.isAlive()) {
             super.start();
         }
     }
-
+    
     /**
      * @param stopMark
      */
